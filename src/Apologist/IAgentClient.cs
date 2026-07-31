@@ -1,6 +1,6 @@
 namespace Apologist;
 
-public partial interface IApologistAgentClient
+public partial interface IAgentClient
 {
     public IChatClient Chat { get; }
     public ICorpusClient Corpus { get; }

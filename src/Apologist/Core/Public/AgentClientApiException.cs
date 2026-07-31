@@ -3,13 +3,13 @@ namespace Apologist;
 /// <summary>
 /// This exception type will be thrown for any non-2XX API responses.
 /// </summary>
-public class ApologistAgentClientApiException(
+public class AgentClientApiException(
     string message,
     int statusCode,
     object body,
     Exception? innerException = null,
     Apologist.RawResponse? rawResponse = null
-) : ApologistAgentClientException(message, innerException)
+) : AgentClientException(message, innerException)
 {
     /// <summary>
     /// The error code of the response that triggered the exception.

@@ -2,11 +2,11 @@ using Apologist.Core;
 
 namespace Apologist;
 
-public partial class ApologistAgentClient : IApologistAgentClient
+public partial class AgentClient : IAgentClient
 {
     private readonly RawClient _client;
 
-    public ApologistAgentClient(string apiKey, ClientOptions? clientOptions = null)
+    public AgentClient(string apiKey, ClientOptions? clientOptions = null)
     {
         clientOptions ??= new ClientOptions();
         if (clientOptions.Domain != null)
@@ -16,7 +16,7 @@ public partial class ApologistAgentClient : IApologistAgentClient
             {
                 clientOptions.BaseUrl = $"https://{_domain}/api/v1";
             }
-            else if (clientOptions.BaseUrl == ApologistAgentClientEnvironment.Default)
+            else if (clientOptions.BaseUrl == AgentClientEnvironment.Default)
             {
                 clientOptions.BaseUrl = $"https://{_domain}/api/v1";
             }
@@ -27,7 +27,7 @@ public partial class ApologistAgentClient : IApologistAgentClient
                 { "X-Fern-Language", "C#" },
                 { "X-Fern-SDK-Name", "apologist" },
                 { "X-Fern-SDK-Version", Version.Current },
-                { "User-Agent", "apologist/0.0.2" },
+                { "User-Agent", "apologist/1.0.3" },
             }
         );
         foreach (var header in platformHeaders)

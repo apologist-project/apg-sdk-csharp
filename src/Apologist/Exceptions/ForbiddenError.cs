@@ -5,4 +5,4 @@ namespace Apologist;
 /// </summary>
 [Serializable]
 public class ForbiddenError(object body, Apologist.RawResponse? rawResponse = null)
-    : ApologistAgentClientApiException("ForbiddenError", 403, body, rawResponse: rawResponse);
+    : AgentClientApiException("ForbiddenError", 403, body, rawResponse: rawResponse);

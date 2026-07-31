@@ -75,7 +75,7 @@ public partial class BenchmarksClient : IBenchmarksClient
             }
             catch (JsonException e)
             {
-                throw new ApologistAgentClientApiException(
+                throw new AgentClientApiException(
                     "Failed to deserialize response",
                     response.StatusCode,
                     responseBody,
@@ -139,7 +139,7 @@ public partial class BenchmarksClient : IBenchmarksClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,
@@ -209,7 +209,7 @@ public partial class BenchmarksClient : IBenchmarksClient
             }
             catch (JsonException e)
             {
-                throw new ApologistAgentClientApiException(
+                throw new AgentClientApiException(
                     "Failed to deserialize response",
                     response.StatusCode,
                     responseBody,
@@ -297,7 +297,7 @@ public partial class BenchmarksClient : IBenchmarksClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,
@@ -364,7 +364,7 @@ public partial class BenchmarksClient : IBenchmarksClient
             }
             catch (JsonException e)
             {
-                throw new ApologistAgentClientApiException(
+                throw new AgentClientApiException(
                     "Failed to deserialize response",
                     response.StatusCode,
                     responseBody,
@@ -428,7 +428,7 @@ public partial class BenchmarksClient : IBenchmarksClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,

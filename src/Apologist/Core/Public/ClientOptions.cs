@@ -5,7 +5,7 @@ namespace Apologist;
 [Serializable]
 public partial class ClientOptions
 {
-    private string _baseUrl = ApologistAgentClientEnvironment.Default;
+    private string _baseUrl = AgentClientEnvironment.Default;
 
     public ClientOptions() { }
 

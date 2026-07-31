@@ -10,7 +10,7 @@ public class BaseMockServerTest
 {
     protected WireMockServer Server { get; set; } = null!;
 
-    protected ApologistAgentClient Client { get; set; } = null!;
+    protected AgentClient Client { get; set; } = null!;
 
     protected RequestOptions RequestOptions { get; set; } = new();
 
@@ -23,7 +23,7 @@ public class BaseMockServerTest
         );
 
         // Initialize the Client
-        Client = new ApologistAgentClient(
+        Client = new AgentClient(
             "API_KEY",
             clientOptions: new ClientOptions { BaseUrl = Server.Urls[0], MaxRetries = 0 }
         );

@@ -5,12 +5,7 @@ namespace Apologist;
 /// </summary>
 [Serializable]
 public class UnprocessableEntityError(Error body, Apologist.RawResponse? rawResponse = null)
-    : ApologistAgentClientApiException(
-        "UnprocessableEntityError",
-        422,
-        body,
-        rawResponse: rawResponse
-    )
+    : AgentClientApiException("UnprocessableEntityError", 422, body, rawResponse: rawResponse)
 {
     /// <summary>
     /// The body of the response that triggered the exception.
