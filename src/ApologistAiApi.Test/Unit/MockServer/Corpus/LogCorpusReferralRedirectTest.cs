@@ -1,0 +1,83 @@
+using ApologistAiApi;
+using ApologistAiApi.Test.Unit.MockServer;
+using ApologistAiApi.Test.Utils;
+using NUnit.Framework;
+
+namespace ApologistAiApi.Test.Unit.MockServer.Corpus;
+
+[TestFixture]
+[Parallelizable(ParallelScope.Self)]
+public class LogCorpusReferralRedirectTest : BaseMockServerTest
+{
+    [NUnit.Framework.Test]
+    public async Task MockServerTest_1()
+    {
+        const string mockResponse = """
+            {
+              "success": true,
+              "message": "message"
+            }
+            """;
+
+        Server
+            .Given(
+                WireMock
+                    .RequestBuilders.Request.Create()
+                    .WithPath("/corpus/model/id/referral")
+                    .WithParam("prompt_id", "prompt_id")
+                    .UsingGet()
+            )
+            .RespondWith(
+                WireMock
+                    .ResponseBuilders.Response.Create()
+                    .WithStatusCode(200)
+                    .WithBody(mockResponse)
+            );
+
+        var response = await Client.Corpus.LogCorpusReferralRedirectAsync(
+            new LogCorpusReferralRedirectRequest
+            {
+                Model = "model",
+                Id = "id",
+                PromptId = "prompt_id",
+            }
+        );
+        JsonAssert.AreEqual(response, mockResponse);
+    }
+
+    [NUnit.Framework.Test]
+    public async Task MockServerTest_2()
+    {
+        const string mockResponse = """
+            {
+              "success": true,
+              "message": "message"
+            }
+            """;
+
+        Server
+            .Given(
+                WireMock
+                    .RequestBuilders.Request.Create()
+                    .WithPath("/corpus/model/id/referral")
+                    .WithParam("prompt_id", "prompt_id")
+                    .UsingGet()
+            )
+            .RespondWith(
+                WireMock
+                    .ResponseBuilders.Response.Create()
+                    .WithStatusCode(200)
+                    .WithBody(mockResponse)
+            );
+
+        var response = await Client.Corpus.LogCorpusReferralRedirectAsync(
+            new LogCorpusReferralRedirectRequest
+            {
+                Model = "model",
+                Id = "id",
+                PromptId = "prompt_id",
+            }
+        );
+        JsonAssert.AreEqual(response, mockResponse);
+    }
+}
