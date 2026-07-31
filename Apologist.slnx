@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/Apologist.Test/Apologist.Test.csproj" />
+  <Project Path="src/Apologist/Apologist.csproj" />
+</Solution>

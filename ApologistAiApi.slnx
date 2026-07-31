@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="src/ApologistAiApi.Test/ApologistAiApi.Test.csproj" />
-  <Project Path="src/ApologistAiApi/ApologistAiApi.csproj" />
-</Solution>
