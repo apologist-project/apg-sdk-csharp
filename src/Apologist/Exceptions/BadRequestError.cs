@@ -5,4 +5,4 @@ namespace Apologist;
 /// </summary>
 [Serializable]
 public class BadRequestError(object body, Apologist.RawResponse? rawResponse = null)
-    : ApologistAgentClientApiException("BadRequestError", 400, body, rawResponse: rawResponse);
+    : AgentClientApiException("BadRequestError", 400, body, rawResponse: rawResponse);

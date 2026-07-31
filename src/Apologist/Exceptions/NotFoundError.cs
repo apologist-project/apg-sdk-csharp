@@ -5,4 +5,4 @@ namespace Apologist;
 /// </summary>
 [Serializable]
 public class NotFoundError(object body, Apologist.RawResponse? rawResponse = null)
-    : ApologistAgentClientApiException("NotFoundError", 404, body, rawResponse: rawResponse);
+    : AgentClientApiException("NotFoundError", 404, body, rawResponse: rawResponse);

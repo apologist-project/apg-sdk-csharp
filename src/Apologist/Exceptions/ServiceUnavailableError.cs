@@ -5,9 +5,4 @@ namespace Apologist;
 /// </summary>
 [Serializable]
 public class ServiceUnavailableError(object body, Apologist.RawResponse? rawResponse = null)
-    : ApologistAgentClientApiException(
-        "ServiceUnavailableError",
-        503,
-        body,
-        rawResponse: rawResponse
-    );
+    : AgentClientApiException("ServiceUnavailableError", 503, body, rawResponse: rawResponse);

@@ -5,4 +5,4 @@ namespace Apologist;
 /// </summary>
 [Serializable]
 public class InternalServerError(object body, Apologist.RawResponse? rawResponse = null)
-    : ApologistAgentClientApiException("InternalServerError", 500, body, rawResponse: rawResponse);
+    : AgentClientApiException("InternalServerError", 500, body, rawResponse: rawResponse);

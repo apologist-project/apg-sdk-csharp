@@ -68,7 +68,7 @@ public partial class ChannelsClient : IChannelsClient
             }
             catch (JsonException e)
             {
-                throw new ApologistAgentClientApiException(
+                throw new AgentClientApiException(
                     "Failed to deserialize response",
                     response.StatusCode,
                     responseBody,
@@ -108,7 +108,7 @@ public partial class ChannelsClient : IChannelsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,
@@ -204,7 +204,7 @@ public partial class ChannelsClient : IChannelsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,
@@ -318,7 +318,7 @@ public partial class ChannelsClient : IChannelsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,
@@ -412,7 +412,7 @@ public partial class ChannelsClient : IChannelsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,
@@ -477,7 +477,7 @@ public partial class ChannelsClient : IChannelsClient
             var responseBody = await response
                 .Raw.Content.ReadAsStringAsync(cancellationToken)
                 .ConfigureAwait(false);
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,
@@ -571,7 +571,7 @@ public partial class ChannelsClient : IChannelsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,
@@ -665,7 +665,7 @@ public partial class ChannelsClient : IChannelsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,

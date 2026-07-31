@@ -10,40 +10,7 @@ namespace Apologist.Test.Unit.MockServer.Evaluators;
 public class GetEvaluationTest : BaseMockServerTest
 {
     [NUnit.Framework.Test]
-    public async Task MockServerTest_1()
-    {
-        const string mockResponse = """
-            {
-              "data": {
-                "data": {
-                  "key": "value"
-                }
-              }
-            }
-            """;
-
-        Server
-            .Given(
-                WireMock
-                    .RequestBuilders.Request.Create()
-                    .WithPath("/evaluators/id/evaluations/evaluationId")
-                    .UsingGet()
-            )
-            .RespondWith(
-                WireMock
-                    .ResponseBuilders.Response.Create()
-                    .WithStatusCode(200)
-                    .WithBody(mockResponse)
-            );
-
-        var response = await Client.Evaluators.GetEvaluationAsync(
-            new GetEvaluationRequest { Id = "id", EvaluationId = "evaluationId" }
-        );
-        JsonAssert.AreEqual(response, mockResponse);
-    }
-
-    [NUnit.Framework.Test]
-    public async Task MockServerTest_2()
+    public async Task MockServerTest()
     {
         const string mockResponse = """
             {

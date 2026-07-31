@@ -76,7 +76,7 @@ public partial class EvaluatorsClient : IEvaluatorsClient
             }
             catch (JsonException e)
             {
-                throw new ApologistAgentClientApiException(
+                throw new AgentClientApiException(
                     "Failed to deserialize response",
                     response.StatusCode,
                     responseBody,
@@ -140,7 +140,7 @@ public partial class EvaluatorsClient : IEvaluatorsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,
@@ -208,7 +208,7 @@ public partial class EvaluatorsClient : IEvaluatorsClient
             }
             catch (JsonException e)
             {
-                throw new ApologistAgentClientApiException(
+                throw new AgentClientApiException(
                     "Failed to deserialize response",
                     response.StatusCode,
                     responseBody,
@@ -284,7 +284,7 @@ public partial class EvaluatorsClient : IEvaluatorsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,
@@ -351,7 +351,7 @@ public partial class EvaluatorsClient : IEvaluatorsClient
             }
             catch (JsonException e)
             {
-                throw new ApologistAgentClientApiException(
+                throw new AgentClientApiException(
                     "Failed to deserialize response",
                     response.StatusCode,
                     responseBody,
@@ -415,7 +415,7 @@ public partial class EvaluatorsClient : IEvaluatorsClient
             {
                 // unable to map error response, throwing generic error
             }
-            throw new ApologistAgentClientApiException(
+            throw new AgentClientApiException(
                 $"Error with status code {response.StatusCode}",
                 response.StatusCode,
                 responseBody,

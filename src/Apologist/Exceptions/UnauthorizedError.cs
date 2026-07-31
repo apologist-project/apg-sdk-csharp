@@ -5,4 +5,4 @@ namespace Apologist;
 /// </summary>
 [Serializable]
 public class UnauthorizedError(object body, Apologist.RawResponse? rawResponse = null)
-    : ApologistAgentClientApiException("UnauthorizedError", 401, body, rawResponse: rawResponse);
+    : AgentClientApiException("UnauthorizedError", 401, body, rawResponse: rawResponse);
