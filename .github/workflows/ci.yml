@@ -26,26 +26,26 @@ jobs:
         run: dotnet tool restore
 
       - name: Restore dependencies
-        run: dotnet restore src/ApologistAiApi/ApologistAiApi.csproj
+        run: dotnet restore src/Apologist/Apologist.csproj
 
       - name: Build
-        run: dotnet build src/ApologistAiApi/ApologistAiApi.csproj --no-restore -c Release
+        run: dotnet build src/Apologist/Apologist.csproj --no-restore -c Release
 
       - name: Restore test dependencies
-        run: dotnet restore src/ApologistAiApi.Test/ApologistAiApi.Test.csproj
+        run: dotnet restore src/Apologist.Test/Apologist.Test.csproj
 
       - name: Build tests
-        run: dotnet build src/ApologistAiApi.Test/ApologistAiApi.Test.csproj --no-restore -c Release
+        run: dotnet build src/Apologist.Test/Apologist.Test.csproj --no-restore -c Release
 
       - name: Test
-        run: dotnet test src/ApologistAiApi.Test/ApologistAiApi.Test.csproj --no-restore --no-build -c Release
+        run: dotnet test src/Apologist.Test/Apologist.Test.csproj --no-restore --no-build -c Release
 
       - name: Pack
         if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
-        run: dotnet pack src/ApologistAiApi/ApologistAiApi.csproj --no-build --no-restore -c Release
+        run: dotnet pack src/Apologist/Apologist.csproj --no-build --no-restore -c Release
 
       - name: Publish to NuGet.org
         if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_TOKEN }}
-        run: dotnet nuget push src/ApologistAiApi/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source "nuget.org"
+        run: dotnet nuget push src/Apologist/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source "nuget.org"
