@@ -4,17 +4,14 @@ Configure additional MSBuild properties for your project in this file:
 - Step 2: Modify this file to your liking.
 -->
 <Project>
-  <!--
-    <PropertyGroup>
-        <Title>Contoso SDK</Title>
-        <Authors>Contoso</Authors>
-        <Company>Contoso</Company>
-        <AssemblyName>Contoso.Sdk</AssemblyName>
-        <AssemblyTitle>Contoso SDK</AssemblyTitle>
-        <PackageIcon>icon.png</PackageIcon>
-    </PropertyGroup>
-    <ItemGroup>
-        <None Include="..\..\icon.png" Pack="true" PackagePath="" />
-    </ItemGroup>
-    -->
+  <PropertyGroup>
+    <Version>1.0.2</Version>
+    <Authors>Apologist</Authors>
+    <Company>Apologist</Company>
+    <Description>Official .NET client for the Apologist Agent API.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/apologist-project/apg-sdk-csharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/apologist-project/apg-sdk-csharp</RepositoryUrl>
+    <PackageTags>apologist;api;sdk</PackageTags>
+  </PropertyGroup>
 </Project>

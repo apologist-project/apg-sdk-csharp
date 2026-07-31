@@ -12,6 +12,9 @@ env:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout repo
@@ -44,8 +47,17 @@ jobs:
         if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
         run: dotnet pack src/Apologist/Apologist.csproj --no-build --no-restore -c Release
 
+      - name: NuGet login (OIDC → temp API key)
+        if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Publish to NuGet.org
         if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_TOKEN }}
-        run: dotnet nuget push src/Apologist/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source "nuget.org"
+        run: >
+          dotnet nuget push src/Apologist/bin/Release/*.nupkg
+          --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate

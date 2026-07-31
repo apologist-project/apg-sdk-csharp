@@ -1,0 +1,8 @@
+# Custom project metadata (version, license, etc.)
+src/Apologist/Apologist.Custom.props
+
+# Publish workflow (Trusted Publishing / OIDC)
+.github/workflows/ci.yml
+
+LICENSE
+README.md
