@@ -27,7 +27,7 @@ public partial class AgentClient : IAgentClient
                 { "X-Fern-Language", "C#" },
                 { "X-Fern-SDK-Name", "apologist" },
                 { "X-Fern-SDK-Version", Version.Current },
-                { "User-Agent", "apologist/1.0.5" },
+                { "User-Agent", "apologist/1.1.1" },
             }
         );
         foreach (var header in platformHeaders)
@@ -50,6 +50,8 @@ public partial class AgentClient : IAgentClient
         CtAs = new CtAsClient(_client);
         Users = new UsersClient(_client);
         Benchmarks = new BenchmarksClient(_client);
+        Agent = new AgentClient_(_client);
+        Conversations = new ConversationsClient(_client);
         Channels = new ChannelsClient(_client);
         Shares = new SharesClient(_client);
     }
@@ -65,6 +67,10 @@ public partial class AgentClient : IAgentClient
     public IUsersClient Users { get; }
 
     public IBenchmarksClient Benchmarks { get; }
+
+    public IAgentClient Agent { get; }
+
+    public IConversationsClient Conversations { get; }
 
     public IChannelsClient Channels { get; }
 
