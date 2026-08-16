@@ -20,6 +20,12 @@ public record User : IJsonOnDeserialized
     [JsonPropertyName("external_id")]
     public string? ExternalId { get; set; }
 
+    /// <summary>
+    /// First-write-wins acquisition / campaign referral code.
+    /// </summary>
+    [JsonPropertyName("referral_code")]
+    public string? ReferralCode { get; set; }
+
     [JsonPropertyName("team_id")]
     public int? TeamId { get; set; }
 

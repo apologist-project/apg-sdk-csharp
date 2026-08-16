@@ -6,3 +6,6 @@ src/Apologist/Apologist.Custom.props
 
 LICENSE
 README.md
+.fern/replay.lock
+.fern/replay.yml
+.gitattributes
