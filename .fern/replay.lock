@@ -12,5 +12,122 @@ generations:
     cli_version: unknown
     generator_versions:
       fernapi/fern-csharp-sdk: 2.79.4
-current_generation: a77fa9d6d1e36616fcf8e9e286d3fc05c6551bc0
-patches: []
+  - commit_sha: 6e57a33e848aa0fbde5d003ac8f09a86bb9e6352
+    tree_hash: 18814739b1996e94f8972f9e36f8ecd17aaaf25a
+    timestamp: 2026-08-16T19:23:41.966Z
+    cli_version: unknown
+    generator_versions:
+      fernapi/fern-csharp-sdk: 2.79.4
+current_generation: 6e57a33e848aa0fbde5d003ac8f09a86bb9e6352
+patches:
+  - id: patch-177ec641
+    content_hash: sha256:48eeddc35d869d2b176e4d3ce6c6108371a5746921416872ec6c71667a26116a
+    original_commit: 177ec64131dc3df68092818af5b2378bed675871
+    original_message: Release 1.1.0.
+    original_author: Jake Carlson <jake@carlsonville.com>
+    base_generation: cb3f5a93e2124845c876fb58e66734d5e60fbc79
+    files:
+      - src/Apologist/Apologist.csproj
+      - src/Apologist/Core/Public/Version.cs
+    patch_content: |
+      diff --git a/src/Apologist/Apologist.csproj b/src/Apologist/Apologist.csproj
+      index 81af669..892b1f0 100644
+      --- a/src/Apologist/Apologist.csproj
+      +++ b/src/Apologist/Apologist.csproj
+      @@ -5,7 +5,7 @@
+           <ImplicitUsings>enable</ImplicitUsings>
+           <LangVersion>12</LangVersion>
+           <Nullable>enable</Nullable>
+      -    <Version>1.0.5</Version>
+      +    <Version>1.1.0</Version>
+           <AssemblyVersion>$(Version)</AssemblyVersion>
+           <FileVersion>$(Version)</FileVersion>
+           <PackageReadmeFile Condition="Exists('..\..\README.md')">README.md</PackageReadmeFile>
+      diff --git a/src/Apologist/Core/Public/Version.cs b/src/Apologist/Core/Public/Version.cs
+      index 311838b..42444c4 100644
+      --- a/src/Apologist/Core/Public/Version.cs
+      +++ b/src/Apologist/Core/Public/Version.cs
+      @@ -3,5 +3,5 @@ namespace Apologist;
+       [Serializable]
+       internal class Version
+       {
+      -    public const string Current = "1.0.5";
+      +    public const string Current = "1.1.0";
+       }
+    theirs_snapshot:
+      src/Apologist/Apologist.csproj: |
+        <Project Sdk="Microsoft.NET.Sdk">
+          <PropertyGroup>
+            <PackageId>apologist</PackageId>
+            <TargetFrameworks>net462;net8.0;net9.0;netstandard2.0</TargetFrameworks>
+            <ImplicitUsings>enable</ImplicitUsings>
+            <LangVersion>12</LangVersion>
+            <Nullable>enable</Nullable>
+            <Version>1.1.0</Version>
+            <AssemblyVersion>$(Version)</AssemblyVersion>
+            <FileVersion>$(Version)</FileVersion>
+            <PackageReadmeFile Condition="Exists('..\..\README.md')">README.md</PackageReadmeFile>
+            <PackageProjectUrl>https://github.com/apologist-project/apg-sdk-csharp</PackageProjectUrl>
+            <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
+          </PropertyGroup>
+
+          <PropertyGroup>
+            <UsePortableDateOnly>false</UsePortableDateOnly>
+          </PropertyGroup>
+          <PropertyGroup Condition="'$(TargetFramework)' == 'net462' Or '$(TargetFramework)' == 'netstandard2.0'">
+            <DefineConstants>$(DefineConstants);USE_PORTABLE_DATE_ONLY</DefineConstants>
+            <UsePortableDateOnly>true</UsePortableDateOnly>
+          </PropertyGroup>
+          <ItemGroup Condition="'$(TargetFramework)' == 'net462' Or '$(TargetFramework)' == 'netstandard2.0'">
+            <Using Include="System.Net.Http" />
+            <Using Include="System.Collections.Generic" />
+            <Using Include="System.Linq" />
+            <Using Include="System.Threading" />
+            <Using Include="System.Threading.Tasks" />
+          </ItemGroup>
+          <ItemGroup Condition="'$(UsePortableDateOnly)' == 'true'">
+            <PackageReference Include="Portable.System.DateTimeOnly" Version="9.0.1" />
+          </ItemGroup>
+          <ItemGroup Condition="'$(UsePortableDateOnly)' == 'false'">
+            <Compile Remove="Core\DateOnlyConverter.cs" />
+          </ItemGroup>
+          <ItemGroup>
+            <PackageReference Include="PolySharp" Version="1.15.0">
+              <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+              <PrivateAssets>all</PrivateAssets>
+            </PackageReference>
+            <PackageReference Include="OneOf" Version="3.0.271" />
+            <PackageReference Include="OneOf.Extended" Version="3.0.271" />
+            <PackageReference Include="System.Net.Http" Version="[4.3.4,)" />
+            <PackageReference Include="System.Text.RegularExpressions" Version="[4.3.1,)" />
+          </ItemGroup>
+          <ItemGroup Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
+            <PackageReference Include="System.Text.Json" Version="9.0.9" />
+          </ItemGroup>
+
+          <ItemGroup>
+            <None
+              Include="..\..\README.md"
+              Pack="true"
+              PackagePath=""
+              Condition="Exists('..\..\README.md')"
+            />
+          </ItemGroup>
+
+          <ItemGroup>
+            <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+              <_Parameter1>Apologist.Test</_Parameter1>
+            </AssemblyAttribute>
+          </ItemGroup>
+
+          <Import Project="Apologist.Custom.props" Condition="Exists('Apologist.Custom.props')" />
+        </Project>
+      src/Apologist/Core/Public/Version.cs: |
+        namespace Apologist;
+
+        [Serializable]
+        internal class Version
+        {
+            public const string Current = "1.1.0";
+        }
+    status: unresolved
