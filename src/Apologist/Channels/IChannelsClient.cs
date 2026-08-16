@@ -82,4 +82,22 @@ public partial interface IChannelsClient
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
+
+    /// <summary>
+    /// Handles the Meta WhatsApp Cloud API webhook verification handshake, echoing `hub.challenge` when `hub.verify_token` matches the channel's configured token.
+    /// </summary>
+    WithRawResponseTask<string> VerifyWhatsAppWebhookAsync(
+        VerifyWhatsAppWebhookRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Receives WhatsApp Cloud API message events for the channel. Payload shape is defined by Meta. Signature verification via `x-hub-signature-256` is used when the channel has an App Secret configured; otherwise the webhook relies on URL secrecy and/or an `api_key` query parameter.
+    /// </summary>
+    WithRawResponseTask ReceiveWhatsAppMessageAsync(
+        ReceiveWhatsAppMessageRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
 }
