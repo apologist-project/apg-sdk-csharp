@@ -35,6 +35,12 @@ public record ChatCompletionRequestMetadata : IJsonOnDeserialized
     [JsonPropertyName("device")]
     public string? Device { get; set; }
 
+    /// <summary>
+    /// Acquisition / campaign referral code stored on the user first-write-wins. Empty values are ignored; an existing user referral_code is never overwritten. The Agent UI maps ?ref=, then ?referral_code=, then ?utm_campaign= into this field.
+    /// </summary>
+    [JsonPropertyName("referral_code")]
+    public string? ReferralCode { get; set; }
+
     [JsonPropertyName("shared_prompt")]
     public int? SharedPrompt { get; set; }
 
