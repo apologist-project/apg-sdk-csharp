@@ -1337,6 +1337,302 @@ await client.Benchmarks.GetBenchmarkRunAsync(
 </dl>
 </details>
 
+## Agent
+<details><summary><code>client.Agent.<a href="/src/Apologist/Agent/AgentClient_.cs">PauseAgentAsync</a>() -> WithRawResponseTask&lt;PauseAgentResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Pauses the agent globally and fans out pause transition messages to open conversations. Requires an API key.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Agent.PauseAgentAsync();
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Agent.<a href="/src/Apologist/Agent/AgentClient_.cs">ResumeAgentAsync</a>() -> WithRawResponseTask&lt;ResumeAgentResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Resumes the agent globally and fans out resume transition messages to open conversations. Requires an API key.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Agent.ResumeAgentAsync();
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Conversations
+<details><summary><code>client.Conversations.<a href="/src/Apologist/Conversations/ConversationsClient.cs">ListConversationsAsync</a>(ListConversationsRequest { ... }) -> WithRawResponseTask&lt;ListConversationsResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns a paginated list of conversations for the requesting agent, newest first.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Conversations.ListConversationsAsync(new ListConversationsRequest());
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ListConversationsRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Conversations.<a href="/src/Apologist/Conversations/ConversationsClient.cs">GetConversationAsync</a>(GetConversationRequest { ... }) -> WithRawResponseTask&lt;GetConversationResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns a single conversation by internal UUID or team-scoped external id.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Conversations.GetConversationAsync(new GetConversationRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `GetConversationRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Conversations.<a href="/src/Apologist/Conversations/ConversationsClient.cs">PauseConversationAsync</a>(PauseConversationRequest { ... }) -> WithRawResponseTask&lt;PauseConversationResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Pauses the agent on a conversation identified by internal UUID or team-scoped external id. Requires an API key.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Conversations.PauseConversationAsync(new PauseConversationRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `PauseConversationRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Conversations.<a href="/src/Apologist/Conversations/ConversationsClient.cs">ResumeConversationAsync</a>(ResumeConversationRequest { ... }) -> WithRawResponseTask&lt;ResumeConversationResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Resumes the agent on a conversation identified by internal UUID or team-scoped external id. Requires an API key.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Conversations.ResumeConversationAsync(new ResumeConversationRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ResumeConversationRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Channels
 <details><summary><code>client.Channels.<a href="/src/Apologist/Channels/ChannelsClient.cs">GetDiscordChannelStatusAsync</a>(GetDiscordChannelStatusRequest { ... }) -> WithRawResponseTask&lt;GetDiscordChannelStatusResponse&gt;</code></summary>
 <dl>
@@ -1850,6 +2146,127 @@ await client.Channels.ReceiveTwilioMessageAsync(new ReceiveTwilioMessageRequest 
 <dd>
 
 **request:** `ReceiveTwilioMessageRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Channels.<a href="/src/Apologist/Channels/ChannelsClient.cs">VerifyWhatsAppWebhookAsync</a>(VerifyWhatsAppWebhookRequest { ... }) -> WithRawResponseTask&lt;string&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Handles the Meta WhatsApp Cloud API webhook verification handshake, echoing `hub.challenge` when `hub.verify_token` matches the channel's configured token.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Channels.VerifyWhatsAppWebhookAsync(
+    new VerifyWhatsAppWebhookRequest
+    {
+        Id = "id",
+        HubMode = VerifyWhatsAppWebhookRequestHubMode.Subscribe,
+        HubVerifyToken = "hub.verify_token",
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `VerifyWhatsAppWebhookRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Channels.<a href="/src/Apologist/Channels/ChannelsClient.cs">ReceiveWhatsAppMessageAsync</a>(ReceiveWhatsAppMessageRequest { ... }) -> WithRawResponseTask</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Receives WhatsApp Cloud API message events for the channel. Payload shape is defined by Meta. Signature verification via `x-hub-signature-256` is used when the channel has an App Secret configured; otherwise the webhook relies on URL secrecy and/or an `api_key` query parameter.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Channels.ReceiveWhatsAppMessageAsync(
+    new ReceiveWhatsAppMessageRequest
+    {
+        Id = "id",
+        Body = new Dictionary<string, object?>() { { "key", "value" } },
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ReceiveWhatsAppMessageRequest` 
     
 </dd>
 </dl>

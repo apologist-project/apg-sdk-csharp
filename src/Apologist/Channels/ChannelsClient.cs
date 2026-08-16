@@ -906,6 +906,227 @@ public partial class ChannelsClient : IChannelsClient
         }
     }
 
+    private async Task<WithRawResponse<string>> VerifyWhatsAppWebhookAsyncCore(
+        VerifyWhatsAppWebhookRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var _queryString = new Apologist.Core.QueryStringBuilder.Builder(capacity: 3)
+            .Add("hub.mode", request.HubMode)
+            .Add("hub.verify_token", request.HubVerifyToken)
+            .Add("hub.challenge", request.HubChallenge)
+            .MergeAdditional(options?.AdditionalQueryParameters)
+            .Build();
+        var _headers = await new Apologist.Core.HeadersBuilder.Builder()
+            .Add(_client.Options.Headers)
+            .Add(_client.Options.AdditionalHeaders)
+            .Add(options?.AdditionalHeaders)
+            .BuildAsync()
+            .ConfigureAwait(false);
+        var response = await _client
+            .SendRequestAsync(
+                new JsonRequest
+                {
+                    Method = HttpMethod.Get,
+                    Path = string.Format(
+                        "channels/{0}/whatsapp",
+                        ValueConvert.ToPathParameterString(request.Id)
+                    ),
+                    QueryString = _queryString,
+                    Headers = _headers,
+                    Options = options,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+        if (response.StatusCode is >= 200 and < 400)
+        {
+            var responseBody = await response
+                .Raw.Content.ReadAsStringAsync(cancellationToken)
+                .ConfigureAwait(false);
+            return new WithRawResponse<string>()
+            {
+                Data = responseBody,
+                RawResponse = new Apologist.RawResponse()
+                {
+                    StatusCode = response.Raw.StatusCode,
+                    Url = response.Raw.RequestMessage?.RequestUri ?? new Uri("about:blank"),
+                    Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                },
+            };
+        }
+        {
+            var responseBody = await response
+                .Raw.Content.ReadAsStringAsync(cancellationToken)
+                .ConfigureAwait(false);
+            try
+            {
+                switch (response.StatusCode)
+                {
+                    case 400:
+                        throw new BadRequestError(
+                            JsonUtils.Deserialize<object>(responseBody),
+                            rawResponse: new Apologist.RawResponse()
+                            {
+                                StatusCode = response.Raw.StatusCode,
+                                Url =
+                                    response.Raw.RequestMessage?.RequestUri
+                                    ?? new Uri("about:blank"),
+                                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                            }
+                        );
+                    case 403:
+                        throw new ForbiddenError(
+                            JsonUtils.Deserialize<object>(responseBody),
+                            rawResponse: new Apologist.RawResponse()
+                            {
+                                StatusCode = response.Raw.StatusCode,
+                                Url =
+                                    response.Raw.RequestMessage?.RequestUri
+                                    ?? new Uri("about:blank"),
+                                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                            }
+                        );
+                    case 404:
+                        throw new NotFoundError(
+                            JsonUtils.Deserialize<object>(responseBody),
+                            rawResponse: new Apologist.RawResponse()
+                            {
+                                StatusCode = response.Raw.StatusCode,
+                                Url =
+                                    response.Raw.RequestMessage?.RequestUri
+                                    ?? new Uri("about:blank"),
+                                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                            }
+                        );
+                }
+            }
+            catch (JsonException)
+            {
+                // unable to map error response, throwing generic error
+            }
+            throw new AgentClientApiException(
+                $"Error with status code {response.StatusCode}",
+                response.StatusCode,
+                responseBody,
+                rawResponse: new Apologist.RawResponse()
+                {
+                    StatusCode = response.Raw.StatusCode,
+                    Url = response.Raw.RequestMessage?.RequestUri ?? new Uri("about:blank"),
+                    Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                }
+            );
+        }
+    }
+
+    private async Task<RawResponse> ReceiveWhatsAppMessageAsyncCore(
+        ReceiveWhatsAppMessageRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var _queryString = new Apologist.Core.QueryStringBuilder.Builder(capacity: 0)
+            .MergeAdditional(options?.AdditionalQueryParameters)
+            .Build();
+        var _headers = await new Apologist.Core.HeadersBuilder.Builder()
+            .Add("x-hub-signature-256", request.HubSignature256)
+            .Add(_client.Options.Headers)
+            .Add(_client.Options.AdditionalHeaders)
+            .Add(options?.AdditionalHeaders)
+            .BuildAsync()
+            .ConfigureAwait(false);
+        var response = await _client
+            .SendRequestAsync(
+                new JsonRequest
+                {
+                    Method = HttpMethod.Post,
+                    Path = string.Format(
+                        "channels/{0}/whatsapp",
+                        ValueConvert.ToPathParameterString(request.Id)
+                    ),
+                    Body = request.Body,
+                    QueryString = _queryString,
+                    Headers = _headers,
+                    ContentType = "application/json",
+                    Options = options,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+        if (response.StatusCode is >= 200 and < 400)
+        {
+            return new Apologist.RawResponse()
+            {
+                StatusCode = response.Raw.StatusCode,
+                Url = response.Raw.RequestMessage?.RequestUri ?? new Uri("about:blank"),
+                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+            };
+        }
+        {
+            var responseBody = await response
+                .Raw.Content.ReadAsStringAsync(cancellationToken)
+                .ConfigureAwait(false);
+            try
+            {
+                switch (response.StatusCode)
+                {
+                    case 403:
+                        throw new ForbiddenError(
+                            JsonUtils.Deserialize<object>(responseBody),
+                            rawResponse: new Apologist.RawResponse()
+                            {
+                                StatusCode = response.Raw.StatusCode,
+                                Url =
+                                    response.Raw.RequestMessage?.RequestUri
+                                    ?? new Uri("about:blank"),
+                                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                            }
+                        );
+                    case 500:
+                        throw new InternalServerError(
+                            JsonUtils.Deserialize<object>(responseBody),
+                            rawResponse: new Apologist.RawResponse()
+                            {
+                                StatusCode = response.Raw.StatusCode,
+                                Url =
+                                    response.Raw.RequestMessage?.RequestUri
+                                    ?? new Uri("about:blank"),
+                                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                            }
+                        );
+                    case 503:
+                        throw new ServiceUnavailableError(
+                            JsonUtils.Deserialize<object>(responseBody),
+                            rawResponse: new Apologist.RawResponse()
+                            {
+                                StatusCode = response.Raw.StatusCode,
+                                Url =
+                                    response.Raw.RequestMessage?.RequestUri
+                                    ?? new Uri("about:blank"),
+                                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                            }
+                        );
+                }
+            }
+            catch (JsonException)
+            {
+                // unable to map error response, throwing generic error
+            }
+            throw new AgentClientApiException(
+                $"Error with status code {response.StatusCode}",
+                response.StatusCode,
+                responseBody,
+                rawResponse: new Apologist.RawResponse()
+                {
+                    StatusCode = response.Raw.StatusCode,
+                    Url = response.Raw.RequestMessage?.RequestUri ?? new Uri("about:blank"),
+                    Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                }
+            );
+        }
+    }
+
     /// <summary>
     /// Returns the status of the Discord channel. Used as a lightweight health/verification endpoint.
     /// </summary>
@@ -1093,6 +1314,53 @@ public partial class ChannelsClient : IChannelsClient
     {
         return new WithRawResponseTask(
             ReceiveTwilioMessageAsyncCore(request, options, cancellationToken)
+        );
+    }
+
+    /// <summary>
+    /// Handles the Meta WhatsApp Cloud API webhook verification handshake, echoing `hub.challenge` when `hub.verify_token` matches the channel's configured token.
+    /// </summary>
+    /// <example><code>
+    /// await client.Channels.VerifyWhatsAppWebhookAsync(
+    ///     new VerifyWhatsAppWebhookRequest
+    ///     {
+    ///         Id = "id",
+    ///         HubMode = VerifyWhatsAppWebhookRequestHubMode.Subscribe,
+    ///         HubVerifyToken = "hub.verify_token",
+    ///     }
+    /// );
+    /// </code></example>
+    public WithRawResponseTask<string> VerifyWhatsAppWebhookAsync(
+        VerifyWhatsAppWebhookRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        return new WithRawResponseTask<string>(
+            VerifyWhatsAppWebhookAsyncCore(request, options, cancellationToken)
+        );
+    }
+
+    /// <summary>
+    /// Receives WhatsApp Cloud API message events for the channel. Payload shape is defined by Meta. Signature verification via `x-hub-signature-256` is used when the channel has an App Secret configured; otherwise the webhook relies on URL secrecy and/or an `api_key` query parameter.
+    /// </summary>
+    /// <example><code>
+    /// await client.Channels.ReceiveWhatsAppMessageAsync(
+    ///     new ReceiveWhatsAppMessageRequest
+    ///     {
+    ///         Id = "id",
+    ///         Body = new Dictionary&lt;string, object?&gt;() { { "key", "value" } },
+    ///     }
+    /// );
+    /// </code></example>
+    public WithRawResponseTask ReceiveWhatsAppMessageAsync(
+        ReceiveWhatsAppMessageRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        return new WithRawResponseTask(
+            ReceiveWhatsAppMessageAsyncCore(request, options, cancellationToken)
         );
     }
 }
