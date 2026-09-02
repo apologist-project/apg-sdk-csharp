@@ -1172,6 +1172,114 @@ await client.Users.UpdateUserAsync(new UserUpdateRequest { UserId = "user_id" })
 </dl>
 </details>
 
+<details><summary><code>client.Users.<a href="/src/Apologist/Users/UsersClient.cs">ScrubUserAsync</a>(ScrubUserRequest { ... }) -> WithRawResponseTask&lt;ScrubUserResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Replaces this user's message-adjacent text with a placeholder. Conversation rows, identifiers, flags, and analytics identity stay in place. Repeat calls finish leftover rows.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Users.ScrubUserAsync(new ScrubUserRequest { UserId = "user_id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ScrubUserRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Users.<a href="/src/Apologist/Users/UsersClient.cs">AnonymizeUserAsync</a>(AnonymizeUserRequest { ... }) -> WithRawResponseTask&lt;AnonymizeUserResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Redacts detected personal data in this user's message-adjacent text with regex, then an optional hosted redaction service when the Agent has that option on. Conversation rows, identifiers, flags, and analytics identity stay in place. Repeat calls finish leftover rows and skip text that is already redacted.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Users.AnonymizeUserAsync(new AnonymizeUserRequest { UserId = "user_id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `AnonymizeUserRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Benchmarks
 <details><summary><code>client.Benchmarks.<a href="/src/Apologist/Benchmarks/BenchmarksClient.cs">ListBenchmarkRunsAsync</a>(ListBenchmarkRunsRequest { ... }) -> WithRawResponseTask&lt;ListBenchmarkRunsResponse&gt;</code></summary>
 <dl>
@@ -1634,6 +1742,122 @@ await client.Conversations.ResumeConversationAsync(new ResumeConversationRequest
 </details>
 
 ## Channels
+<details><summary><code>client.Channels.<a href="/src/Apologist/Channels/ChannelsClient.cs">GetChatwootChannelStatusAsync</a>(GetChatwootChannelStatusRequest { ... }) -> WithRawResponseTask&lt;GetChatwootChannelStatusResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the status of the Chatwoot channel. Used as a lightweight health/verification endpoint.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Channels.GetChatwootChannelStatusAsync(
+    new GetChatwootChannelStatusRequest { Id = "id" }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `GetChatwootChannelStatusRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Channels.<a href="/src/Apologist/Channels/ChannelsClient.cs">ReceiveChatwootWebhookAsync</a>(ReceiveChatwootWebhookRequest { ... }) -> WithRawResponseTask</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Receives Chatwoot Agent Bot webhook events for the channel. Chatwoot owns the messaging inbox (Facebook, website widget, and others). This Agent replies through the Chatwoot API and maps native bot handoff to conversation pause/resume. Requests are verified via the `X-Chatwoot-Signature` HMAC-SHA256 header using the configured webhook secret unless an `api_key` is present and no secret is set. The route acknowledges immediately (Chatwoot times out in about 5 seconds) and processes events asynchronously.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Channels.ReceiveChatwootWebhookAsync(
+    new ReceiveChatwootWebhookRequest
+    {
+        Id = "id",
+        Body = new Dictionary<string, object?>() { { "key", "value" } },
+    }
+);
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ReceiveChatwootWebhookRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.Channels.<a href="/src/Apologist/Channels/ChannelsClient.cs">GetDiscordChannelStatusAsync</a>(GetDiscordChannelStatusRequest { ... }) -> WithRawResponseTask&lt;GetDiscordChannelStatusResponse&gt;</code></summary>
 <dl>
 <dd>
