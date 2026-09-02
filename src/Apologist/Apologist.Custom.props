@@ -5,7 +5,7 @@ Configure additional MSBuild properties for your project in this file:
 -->
 <Project>
   <PropertyGroup>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <Authors>Apologist</Authors>
     <Company>Apologist</Company>
     <Description>Official .NET client for the Apologist Agent API.</Description>

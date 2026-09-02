@@ -3,6 +3,24 @@ namespace Apologist;
 public partial interface IChannelsClient
 {
     /// <summary>
+    /// Returns the status of the Chatwoot channel. Used as a lightweight health/verification endpoint.
+    /// </summary>
+    WithRawResponseTask<GetChatwootChannelStatusResponse> GetChatwootChannelStatusAsync(
+        GetChatwootChannelStatusRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Receives Chatwoot Agent Bot webhook events for the channel. Chatwoot owns the messaging inbox (Facebook, website widget, and others). This Agent replies through the Chatwoot API and maps native bot handoff to conversation pause/resume. Requests are verified via the `X-Chatwoot-Signature` HMAC-SHA256 header using the configured webhook secret unless an `api_key` is present and no secret is set. The route acknowledges immediately (Chatwoot times out in about 5 seconds) and processes events asynchronously.
+    /// </summary>
+    WithRawResponseTask ReceiveChatwootWebhookAsync(
+        ReceiveChatwootWebhookRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
     /// Returns the status of the Discord channel. Used as a lightweight health/verification endpoint.
     /// </summary>
     WithRawResponseTask<GetDiscordChannelStatusResponse> GetDiscordChannelStatusAsync(

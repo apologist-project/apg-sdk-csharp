@@ -37,4 +37,22 @@ public partial interface IUsersClient
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
+
+    /// <summary>
+    /// Replaces this user's message-adjacent text with a placeholder. Conversation rows, identifiers, flags, and analytics identity stay in place. Repeat calls finish leftover rows.
+    /// </summary>
+    WithRawResponseTask<ScrubUserResponse> ScrubUserAsync(
+        ScrubUserRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Redacts detected personal data in this user's message-adjacent text with regex, then an optional hosted redaction service when the Agent has that option on. Conversation rows, identifiers, flags, and analytics identity stay in place. Repeat calls finish leftover rows and skip text that is already redacted.
+    /// </summary>
+    WithRawResponseTask<AnonymizeUserResponse> AnonymizeUserAsync(
+        AnonymizeUserRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
 }
