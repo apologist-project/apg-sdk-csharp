@@ -5,7 +5,7 @@ using global::System.Text.Json.Serialization;
 namespace Apologist;
 
 /// <summary>
-/// Canonical JSON body POSTed to a configured webhook URL. `notification`, `event`, and `agent` are always present; the remaining sections appear only when relevant to the event. Treat the payload as additive and ignore unrecognised fields.
+/// Canonical JSON body POSTed to a configured webhook URL. `notification`, `event`, and `agent` are always present; `trace` is present when the event ran inside an instrumented API request. The remaining sections appear only when relevant to the event. Treat the payload as additive and ignore unrecognised fields.
 /// </summary>
 [Serializable]
 public record WebhookPayload : IJsonOnDeserialized
@@ -54,13 +54,25 @@ public record WebhookPayload : IJsonOnDeserialized
     public WebhookNamedRef? Guardrail { get; set; }
 
     /// <summary>
-    /// Present for CTA/guardrail events that ran an evaluation.
+    /// Present for automation_trigger events.
+    /// </summary>
+    [JsonPropertyName("automation")]
+    public WebhookNamedRef? Automation { get; set; }
+
+    /// <summary>
+    /// Present for CTA, guardrail, or automation events that ran an evaluation.
     /// </summary>
     [JsonPropertyName("evaluator")]
     public WebhookNamedRef? Evaluator { get; set; }
 
     [JsonPropertyName("evaluation")]
     public WebhookEvaluation? Evaluation { get; set; }
+
+    /// <summary>
+    /// OpenTelemetry context for the API request that produced this event. Present when the Agent created or continued a W3C trace.
+    /// </summary>
+    [JsonPropertyName("trace")]
+    public WebhookPayloadTrace? Trace { get; set; }
 
     [JsonIgnore]
     public ReadOnlyAdditionalProperties AdditionalProperties { get; private set; } = new();

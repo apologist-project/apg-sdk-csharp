@@ -17,7 +17,7 @@ public record BenchmarkRunRequest
     /// Content to evaluate. Required when `source_id` is supplied.
     /// </summary>
     [JsonPropertyName("content")]
-    public OneOf<string?, IEnumerable<object>?>? Content { get; set; }
+    public OneOf<string?, IEnumerable<OneOf<string, ChatMessage>>?>? Content { get; set; }
 
     /// <summary>
     /// Completion UUID whose stored response should be evaluated.

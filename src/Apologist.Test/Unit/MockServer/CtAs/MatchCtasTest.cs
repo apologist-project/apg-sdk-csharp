@@ -1,3 +1,4 @@
+using Apologist;
 using Apologist.Test.Unit.MockServer;
 using Apologist.Test.Utils;
 using NUnit.Framework;
@@ -12,23 +13,14 @@ public class MatchCtasTest : BaseMockServerTest
     public async Task MockServerTest()
     {
         const string requestJson = """
-            {
-              "key": "value"
-            }
+            {}
             """;
 
         const string mockResponse = """
             {
               "ctas": [
                 {
-                  "ctas": {
-                    "key": "value"
-                  }
-                },
-                {
-                  "ctas": {
-                    "key": "value"
-                  }
+                  "key": "value"
                 }
               ]
             }
@@ -39,6 +31,7 @@ public class MatchCtasTest : BaseMockServerTest
                 WireMock
                     .RequestBuilders.Request.Create()
                     .WithPath("/ctas/match")
+                    .WithHeader("Content-Type", "application/json")
                     .UsingPost()
                     .WithBodyAsJson(requestJson)
             )
@@ -49,9 +42,7 @@ public class MatchCtasTest : BaseMockServerTest
                     .WithBody(mockResponse)
             );
 
-        var response = await Client.CtAs.MatchCtasAsync(
-            new Dictionary<object, object?>() { { "key", "value" } }
-        );
+        var response = await Client.CtAs.MatchCtasAsync(new CtaMatchRequest());
         JsonAssert.AreEqual(response, mockResponse);
     }
 }

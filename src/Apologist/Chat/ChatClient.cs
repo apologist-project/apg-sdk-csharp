@@ -1,6 +1,5 @@
 using Apologist.Core;
 using global::System.Text.Json;
-using OneOf;
 
 namespace Apologist;
 
@@ -41,6 +40,9 @@ public partial class ChatClient : IChatClient
             .MergeAdditional(options?.AdditionalQueryParameters)
             .Build();
         var _headers = await new Apologist.Core.HeadersBuilder.Builder()
+            .Add("traceparent", request.Traceparent)
+            .Add("tracestate", request.Tracestate)
+            .Add("baggage", request.Baggage)
             .Add(_client.Options.Headers)
             .Add(_client.Options.AdditionalHeaders)
             .Add(options?.AdditionalHeaders)
@@ -149,7 +151,7 @@ public partial class ChatClient : IChatClient
     }
 
     private async Task<WithRawResponse<ChatCompletionResponse>> CreateChatCompletionAsyncCore(
-        OneOf<object> request,
+        ChatCompletionRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -158,6 +160,9 @@ public partial class ChatClient : IChatClient
             .MergeAdditional(options?.AdditionalQueryParameters)
             .Build();
         var _headers = await new Apologist.Core.HeadersBuilder.Builder()
+            .Add("traceparent", request.Traceparent)
+            .Add("tracestate", request.Tracestate)
+            .Add("baggage", request.Baggage)
             .Add(_client.Options.Headers)
             .Add(_client.Options.AdditionalHeaders)
             .Add(options?.AdditionalHeaders)
@@ -172,6 +177,7 @@ public partial class ChatClient : IChatClient
                     Body = request,
                     QueryString = _queryString,
                     Headers = _headers,
+                    ContentType = "application/json",
                     Options = options,
                 },
                 cancellationToken
@@ -804,6 +810,268 @@ public partial class ChatClient : IChatClient
         }
     }
 
+    private async Task<WithRawResponse<ScrubCompletionResponse>> ScrubCompletionAsyncCore(
+        ScrubCompletionRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var _queryString = new Apologist.Core.QueryStringBuilder.Builder(capacity: 0)
+            .MergeAdditional(options?.AdditionalQueryParameters)
+            .Build();
+        var _headers = await new Apologist.Core.HeadersBuilder.Builder()
+            .Add(_client.Options.Headers)
+            .Add(_client.Options.AdditionalHeaders)
+            .Add(options?.AdditionalHeaders)
+            .BuildAsync()
+            .ConfigureAwait(false);
+        var response = await _client
+            .SendRequestAsync(
+                new JsonRequest
+                {
+                    Method = HttpMethod.Post,
+                    Path = string.Format(
+                        "chat/completions/{0}/scrub",
+                        ValueConvert.ToPathParameterString(request.Id)
+                    ),
+                    QueryString = _queryString,
+                    Headers = _headers,
+                    Options = options,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+        if (response.StatusCode is >= 200 and < 400)
+        {
+            var responseBody = await response
+                .Raw.Content.ReadAsStringAsync(cancellationToken)
+                .ConfigureAwait(false);
+            try
+            {
+                var responseData = JsonUtils.Deserialize<ScrubCompletionResponse>(responseBody)!;
+                return new WithRawResponse<ScrubCompletionResponse>()
+                {
+                    Data = responseData,
+                    RawResponse = new Apologist.RawResponse()
+                    {
+                        StatusCode = response.Raw.StatusCode,
+                        Url = response.Raw.RequestMessage?.RequestUri ?? new Uri("about:blank"),
+                        Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                    },
+                };
+            }
+            catch (JsonException e)
+            {
+                throw new AgentClientApiException(
+                    "Failed to deserialize response",
+                    response.StatusCode,
+                    responseBody,
+                    e,
+                    rawResponse: new Apologist.RawResponse()
+                    {
+                        StatusCode = response.Raw.StatusCode,
+                        Url = response.Raw.RequestMessage?.RequestUri ?? new Uri("about:blank"),
+                        Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                    }
+                );
+            }
+        }
+        {
+            var responseBody = await response
+                .Raw.Content.ReadAsStringAsync(cancellationToken)
+                .ConfigureAwait(false);
+            try
+            {
+                switch (response.StatusCode)
+                {
+                    case 403:
+                        throw new ForbiddenError(
+                            JsonUtils.Deserialize<object>(responseBody),
+                            rawResponse: new Apologist.RawResponse()
+                            {
+                                StatusCode = response.Raw.StatusCode,
+                                Url =
+                                    response.Raw.RequestMessage?.RequestUri
+                                    ?? new Uri("about:blank"),
+                                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                            }
+                        );
+                    case 404:
+                        throw new NotFoundError(
+                            JsonUtils.Deserialize<object>(responseBody),
+                            rawResponse: new Apologist.RawResponse()
+                            {
+                                StatusCode = response.Raw.StatusCode,
+                                Url =
+                                    response.Raw.RequestMessage?.RequestUri
+                                    ?? new Uri("about:blank"),
+                                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                            }
+                        );
+                    case 500:
+                        throw new InternalServerError(
+                            JsonUtils.Deserialize<object>(responseBody),
+                            rawResponse: new Apologist.RawResponse()
+                            {
+                                StatusCode = response.Raw.StatusCode,
+                                Url =
+                                    response.Raw.RequestMessage?.RequestUri
+                                    ?? new Uri("about:blank"),
+                                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                            }
+                        );
+                }
+            }
+            catch (JsonException)
+            {
+                // unable to map error response, throwing generic error
+            }
+            throw new AgentClientApiException(
+                $"Error with status code {response.StatusCode}",
+                response.StatusCode,
+                responseBody,
+                rawResponse: new Apologist.RawResponse()
+                {
+                    StatusCode = response.Raw.StatusCode,
+                    Url = response.Raw.RequestMessage?.RequestUri ?? new Uri("about:blank"),
+                    Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                }
+            );
+        }
+    }
+
+    private async Task<WithRawResponse<AnonymizeCompletionResponse>> AnonymizeCompletionAsyncCore(
+        AnonymizeCompletionRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var _queryString = new Apologist.Core.QueryStringBuilder.Builder(capacity: 0)
+            .MergeAdditional(options?.AdditionalQueryParameters)
+            .Build();
+        var _headers = await new Apologist.Core.HeadersBuilder.Builder()
+            .Add(_client.Options.Headers)
+            .Add(_client.Options.AdditionalHeaders)
+            .Add(options?.AdditionalHeaders)
+            .BuildAsync()
+            .ConfigureAwait(false);
+        var response = await _client
+            .SendRequestAsync(
+                new JsonRequest
+                {
+                    Method = HttpMethod.Post,
+                    Path = string.Format(
+                        "chat/completions/{0}/anonymize",
+                        ValueConvert.ToPathParameterString(request.Id)
+                    ),
+                    QueryString = _queryString,
+                    Headers = _headers,
+                    Options = options,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+        if (response.StatusCode is >= 200 and < 400)
+        {
+            var responseBody = await response
+                .Raw.Content.ReadAsStringAsync(cancellationToken)
+                .ConfigureAwait(false);
+            try
+            {
+                var responseData = JsonUtils.Deserialize<AnonymizeCompletionResponse>(
+                    responseBody
+                )!;
+                return new WithRawResponse<AnonymizeCompletionResponse>()
+                {
+                    Data = responseData,
+                    RawResponse = new Apologist.RawResponse()
+                    {
+                        StatusCode = response.Raw.StatusCode,
+                        Url = response.Raw.RequestMessage?.RequestUri ?? new Uri("about:blank"),
+                        Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                    },
+                };
+            }
+            catch (JsonException e)
+            {
+                throw new AgentClientApiException(
+                    "Failed to deserialize response",
+                    response.StatusCode,
+                    responseBody,
+                    e,
+                    rawResponse: new Apologist.RawResponse()
+                    {
+                        StatusCode = response.Raw.StatusCode,
+                        Url = response.Raw.RequestMessage?.RequestUri ?? new Uri("about:blank"),
+                        Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                    }
+                );
+            }
+        }
+        {
+            var responseBody = await response
+                .Raw.Content.ReadAsStringAsync(cancellationToken)
+                .ConfigureAwait(false);
+            try
+            {
+                switch (response.StatusCode)
+                {
+                    case 403:
+                        throw new ForbiddenError(
+                            JsonUtils.Deserialize<object>(responseBody),
+                            rawResponse: new Apologist.RawResponse()
+                            {
+                                StatusCode = response.Raw.StatusCode,
+                                Url =
+                                    response.Raw.RequestMessage?.RequestUri
+                                    ?? new Uri("about:blank"),
+                                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                            }
+                        );
+                    case 404:
+                        throw new NotFoundError(
+                            JsonUtils.Deserialize<object>(responseBody),
+                            rawResponse: new Apologist.RawResponse()
+                            {
+                                StatusCode = response.Raw.StatusCode,
+                                Url =
+                                    response.Raw.RequestMessage?.RequestUri
+                                    ?? new Uri("about:blank"),
+                                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                            }
+                        );
+                    case 500:
+                        throw new InternalServerError(
+                            JsonUtils.Deserialize<object>(responseBody),
+                            rawResponse: new Apologist.RawResponse()
+                            {
+                                StatusCode = response.Raw.StatusCode,
+                                Url =
+                                    response.Raw.RequestMessage?.RequestUri
+                                    ?? new Uri("about:blank"),
+                                Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                            }
+                        );
+                }
+            }
+            catch (JsonException)
+            {
+                // unable to map error response, throwing generic error
+            }
+            throw new AgentClientApiException(
+                $"Error with status code {response.StatusCode}",
+                response.StatusCode,
+                responseBody,
+                rawResponse: new Apologist.RawResponse()
+                {
+                    StatusCode = response.Raw.StatusCode,
+                    Url = response.Raw.RequestMessage?.RequestUri ?? new Uri("about:blank"),
+                    Headers = ResponseHeaders.FromHttpResponseMessage(response.Raw),
+                }
+            );
+        }
+    }
+
     private async Task<WithRawResponse<GetChatCompletionResponse>> GetChatCompletionAsyncCore(
         GetChatCompletionRequest request,
         RequestOptions? options = null,
@@ -938,7 +1206,12 @@ public partial class ChatClient : IChatClient
     /// Returns a paginated list of chat completions (prompts) for the agent, with applied tags expanded as { id, name } and share metadata.
     /// </summary>
     /// <example><code>
-    /// await client.Chat.ListChatCompletionsAsync(new ListChatCompletionsRequest());
+    /// await client.Chat.ListChatCompletionsAsync(
+    ///     new ListChatCompletionsRequest
+    ///     {
+    ///         Traceparent = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+    ///     }
+    /// );
     /// </code></example>
     public WithRawResponseTask<ListChatCompletionsResponse> ListChatCompletionsAsync(
         ListChatCompletionsRequest request,
@@ -956,11 +1229,14 @@ public partial class ChatClient : IChatClient
     /// </summary>
     /// <example><code>
     /// await client.Chat.CreateChatCompletionAsync(
-    ///     new Dictionary&lt;object, object?&gt;() { { "key", "value" } }
+    ///     new ChatCompletionRequest
+    ///     {
+    ///         Traceparent = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+    ///     }
     /// );
     /// </code></example>
     public WithRawResponseTask<ChatCompletionResponse> CreateChatCompletionAsync(
-        OneOf<object> request,
+        ChatCompletionRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -1035,6 +1311,40 @@ public partial class ChatClient : IChatClient
     {
         return new WithRawResponseTask<SuccessResponse>(
             ShareCompletionAsyncCore(request, options, cancellationToken)
+        );
+    }
+
+    /// <summary>
+    /// Replaces this chat completion's message-adjacent text with a placeholder. Conversation rows, identifiers, likes, flags, and analytics identity stay in place. Repeat calls finish leftover rows.
+    /// </summary>
+    /// <example><code>
+    /// await client.Chat.ScrubCompletionAsync(new ScrubCompletionRequest { Id = "id" });
+    /// </code></example>
+    public WithRawResponseTask<ScrubCompletionResponse> ScrubCompletionAsync(
+        ScrubCompletionRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        return new WithRawResponseTask<ScrubCompletionResponse>(
+            ScrubCompletionAsyncCore(request, options, cancellationToken)
+        );
+    }
+
+    /// <summary>
+    /// Redacts detected personal data in this chat completion's message-adjacent text with regex, then an optional hosted redaction service when the Agent has that option on. Conversation rows, identifiers, likes, flags, and analytics identity stay in place. Repeat calls finish leftover rows and skip text that is already redacted.
+    /// </summary>
+    /// <example><code>
+    /// await client.Chat.AnonymizeCompletionAsync(new AnonymizeCompletionRequest { Id = "id" });
+    /// </code></example>
+    public WithRawResponseTask<AnonymizeCompletionResponse> AnonymizeCompletionAsync(
+        AnonymizeCompletionRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        return new WithRawResponseTask<AnonymizeCompletionResponse>(
+            AnonymizeCompletionAsyncCore(request, options, cancellationToken)
         );
     }
 
