@@ -27,7 +27,7 @@ public partial class AgentClient : IAgentClient
                 { "X-Fern-Language", "C#" },
                 { "X-Fern-SDK-Name", "apologist" },
                 { "X-Fern-SDK-Version", Version.Current },
-                { "User-Agent", "apologist/1.1.2" },
+                { "User-Agent", "apologist/1.1.3" },
             }
         );
         foreach (var header in platformHeaders)

@@ -1,6 +1,5 @@
 using Apologist.Core;
 using global::System.Text.Json;
-using OneOf;
 
 namespace Apologist;
 
@@ -14,7 +13,7 @@ public partial class CtAsClient : ICtAsClient
     }
 
     private async Task<WithRawResponse<MatchCtasResponse>> MatchCtasAsyncCore(
-        OneOf<object> request,
+        CtaMatchRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -37,6 +36,7 @@ public partial class CtAsClient : ICtAsClient
                     Body = request,
                     QueryString = _queryString,
                     Headers = _headers,
+                    ContentType = "application/json",
                     Options = options,
                 },
                 cancellationToken
@@ -289,10 +289,10 @@ public partial class CtAsClient : ICtAsClient
     /// Finds matching CTAs based on conversation context, user, session, device, or messages
     /// </summary>
     /// <example><code>
-    /// await client.CtAs.MatchCtasAsync(new Dictionary&lt;object, object?&gt;() { { "key", "value" } });
+    /// await client.CtAs.MatchCtasAsync(new CtaMatchRequest());
     /// </code></example>
     public WithRawResponseTask<MatchCtasResponse> MatchCtasAsync(
-        OneOf<object> request,
+        CtaMatchRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )

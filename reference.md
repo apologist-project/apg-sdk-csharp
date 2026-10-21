@@ -27,7 +27,12 @@ Returns a paginated list of chat completions (prompts) for the agent, with appli
 <dd>
 
 ```csharp
-await client.Chat.ListChatCompletionsAsync(new ListChatCompletionsRequest());
+await client.Chat.ListChatCompletionsAsync(
+    new ListChatCompletionsRequest
+    {
+        Traceparent = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+    }
+);
 ```
 </dd>
 </dl>
@@ -54,7 +59,7 @@ await client.Chat.ListChatCompletionsAsync(new ListChatCompletionsRequest());
 </dl>
 </details>
 
-<details><summary><code>client.Chat.<a href="/src/Apologist/Chat/ChatClient.cs">CreateChatCompletionAsync</a>(OneOf&lt;object&gt; { ... }) -> WithRawResponseTask&lt;ChatCompletionResponse&gt;</code></summary>
+<details><summary><code>client.Chat.<a href="/src/Apologist/Chat/ChatClient.cs">CreateChatCompletionAsync</a>(ChatCompletionRequest { ... }) -> WithRawResponseTask&lt;ChatCompletionResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -82,7 +87,10 @@ Creates a chat completion using the agent's configured model. Supports both stre
 
 ```csharp
 await client.Chat.CreateChatCompletionAsync(
-    new Dictionary<object, object?>() { { "key", "value" } }
+    new ChatCompletionRequest
+    {
+        Traceparent = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+    }
 );
 ```
 </dd>
@@ -98,7 +106,7 @@ await client.Chat.CreateChatCompletionAsync(
 <dl>
 <dd>
 
-**request:** `OneOf<object>` 
+**request:** `ChatCompletionRequest` 
     
 </dd>
 </dl>
@@ -315,6 +323,114 @@ await client.Chat.ShareCompletionAsync(new ShareRequest { Id = "id" });
 <dd>
 
 **request:** `ShareRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Chat.<a href="/src/Apologist/Chat/ChatClient.cs">ScrubCompletionAsync</a>(ScrubCompletionRequest { ... }) -> WithRawResponseTask&lt;ScrubCompletionResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Replaces this chat completion's message-adjacent text with a placeholder. Conversation rows, identifiers, likes, flags, and analytics identity stay in place. Repeat calls finish leftover rows.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Chat.ScrubCompletionAsync(new ScrubCompletionRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ScrubCompletionRequest` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Chat.<a href="/src/Apologist/Chat/ChatClient.cs">AnonymizeCompletionAsync</a>(AnonymizeCompletionRequest { ... }) -> WithRawResponseTask&lt;AnonymizeCompletionResponse&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Redacts detected personal data in this chat completion's message-adjacent text with regex, then an optional hosted redaction service when the Agent has that option on. Conversation rows, identifiers, likes, flags, and analytics identity stay in place. Repeat calls finish leftover rows and skip text that is already redacted.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```csharp
+await client.Chat.AnonymizeCompletionAsync(new AnonymizeCompletionRequest { Id = "id" });
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `AnonymizeCompletionRequest` 
     
 </dd>
 </dl>
@@ -847,7 +963,7 @@ await client.Evaluators.GetEvaluationAsync(
 </details>
 
 ## CTAs
-<details><summary><code>client.CtAs.<a href="/src/Apologist/CtAs/CtAsClient.cs">MatchCtasAsync</a>(OneOf&lt;object&gt; { ... }) -> WithRawResponseTask&lt;MatchCtasResponse&gt;</code></summary>
+<details><summary><code>client.CtAs.<a href="/src/Apologist/CtAs/CtAsClient.cs">MatchCtasAsync</a>(CtaMatchRequest { ... }) -> WithRawResponseTask&lt;MatchCtasResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -874,7 +990,7 @@ Finds matching CTAs based on conversation context, user, session, device, or mes
 <dd>
 
 ```csharp
-await client.CtAs.MatchCtasAsync(new Dictionary<object, object?>() { { "key", "value" } });
+await client.CtAs.MatchCtasAsync(new CtaMatchRequest());
 ```
 </dd>
 </dl>
@@ -889,7 +1005,7 @@ await client.CtAs.MatchCtasAsync(new Dictionary<object, object?>() { { "key", "v
 <dl>
 <dd>
 
-**request:** `OneOf<object>` 
+**request:** `CtaMatchRequest` 
     
 </dd>
 </dl>
@@ -1347,7 +1463,7 @@ await client.Benchmarks.ListBenchmarkRunsAsync(new ListBenchmarkRunsRequest { Id
 <dl>
 <dd>
 
-Executes a benchmark run and returns the aggregated result with nested evaluators, questions, and a flat evaluations array.
+Executes a benchmark run and returns the aggregated result with nested evaluators, questions, and a flat evaluations array. A run that cannot finish inside one request returns 202 with `completed_at` null and continues in the background. Poll Get a benchmark run until `completed_at` is set.
 </dd>
 </dl>
 </dd>
@@ -1798,7 +1914,7 @@ await client.Channels.GetChatwootChannelStatusAsync(
 </dl>
 </details>
 
-<details><summary><code>client.Channels.<a href="/src/Apologist/Channels/ChannelsClient.cs">ReceiveChatwootWebhookAsync</a>(ReceiveChatwootWebhookRequest { ... }) -> WithRawResponseTask</code></summary>
+<details><summary><code>client.Channels.<a href="/src/Apologist/Channels/ChannelsClient.cs">ReceiveChatwootWebhookAsync</a>(ChatwootWebhookPayload { ... }) -> WithRawResponseTask</code></summary>
 <dl>
 <dd>
 
@@ -1826,10 +1942,35 @@ Receives Chatwoot Agent Bot webhook events for the channel. Chatwoot owns the me
 
 ```csharp
 await client.Channels.ReceiveChatwootWebhookAsync(
-    new ReceiveChatwootWebhookRequest
+    new ChatwootWebhookPayload
     {
-        Id = "id",
-        Body = new Dictionary<string, object?>() { { "key", "value" } },
+        ChannelId = "91",
+        ChatwootSignature =
+            "sha256=2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        ChatwootTimestamp = "1710000000",
+        Event = "message_created",
+        Id = 9001,
+        Content = "Hello from Messenger",
+        MessageType = "incoming",
+        Private = false,
+        Account = new ChatwootWebhookPayloadAccount { Id = 7 },
+        Sender = new ChatwootWebhookPayloadSender
+        {
+            Id = 55,
+            Name = "Pat",
+            Type = "contact",
+        },
+        Conversation = new ChatwootWebhookPayloadConversation
+        {
+            Id = 42,
+            Status = "pending",
+            Account = new ChatwootWebhookPayloadConversationAccount { Id = 7 },
+            Meta = new ChatwootConversationMeta
+            {
+                AssigneeType = "AgentBot",
+                Sender = new ChatwootConversationMetaSender { Id = 55, Name = "Pat" },
+            },
+        },
     }
 );
 ```
@@ -1846,7 +1987,7 @@ await client.Channels.ReceiveChatwootWebhookAsync(
 <dl>
 <dd>
 
-**request:** `ReceiveChatwootWebhookRequest` 
+**request:** `ChatwootWebhookPayload` 
     
 </dd>
 </dl>
@@ -2393,7 +2534,7 @@ await client.Channels.ReceiveTwilioMessageAsync(new ReceiveTwilioMessageRequest 
 <dl>
 <dd>
 
-Handles the Meta WhatsApp Cloud API webhook verification handshake, echoing `hub.challenge` when `hub.verify_token` matches the channel's configured token.
+Handles the Meta WhatsApp Cloud API webhook verification handshake. Requires an `api_key` query parameter or `x-api-key` header, then echoes `hub.challenge` when `hub.verify_token` matches the channel's configured token.
 </dd>
 </dl>
 </dd>
@@ -2454,7 +2595,7 @@ await client.Channels.VerifyWhatsAppWebhookAsync(
 <dl>
 <dd>
 
-Receives WhatsApp Cloud API message events for the channel. Payload shape is defined by Meta. Signature verification via `x-hub-signature-256` is used when the channel has an App Secret configured; otherwise the webhook relies on URL secrecy and/or an `api_key` query parameter.
+Receives WhatsApp Cloud API message events for the channel. Payload shape is defined by Meta. An `api_key` query parameter or `x-api-key` header is required. Signature verification via `x-hub-signature-256` is also required when the channel has an App Secret configured.
 </dd>
 </dl>
 </dd>

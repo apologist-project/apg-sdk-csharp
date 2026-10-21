@@ -7,7 +7,7 @@ namespace Apologist;
 public record LogCorpusReferralRedirectRequest
 {
     /// <summary>
-    /// The model type (e.g., 'source')
+    /// Listing model. One of collection, contributor, organization, or source.
     /// </summary>
     [JsonIgnore]
     public required string Model { get; set; }

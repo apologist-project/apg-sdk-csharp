@@ -14,6 +14,8 @@ public readonly record struct WebhookEventInfoKey : IStringEnum
 
     public static readonly WebhookEventInfoKey ResponseEnd = new(Values.ResponseEnd);
 
+    public static readonly WebhookEventInfoKey AutomationTrigger = new(Values.AutomationTrigger);
+
     public static readonly WebhookEventInfoKey AutomationsEnd = new(Values.AutomationsEnd);
 
     public static readonly WebhookEventInfoKey ResponseLike = new(Values.ResponseLike);
@@ -145,6 +147,8 @@ public readonly record struct WebhookEventInfoKey : IStringEnum
         public const string ResponseStart = "response_start";
 
         public const string ResponseEnd = "response_end";
+
+        public const string AutomationTrigger = "automation_trigger";
 
         public const string AutomationsEnd = "automations_end";
 

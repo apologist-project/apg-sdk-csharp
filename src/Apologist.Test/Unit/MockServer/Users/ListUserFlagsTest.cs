@@ -18,6 +18,7 @@ public class ListUserFlagsTest : BaseMockServerTest
                 {
                   "id": 1,
                   "name": "name",
+                  "key": "key",
                   "user_id": 1,
                   "team_id": 1,
                   "synced_at": "synced_at"

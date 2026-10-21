@@ -63,6 +63,24 @@ public record ListChatCompletionsRequest
     [JsonIgnore]
     public string? MaxTimestamp { get; set; }
 
+    /// <summary>
+    /// W3C Trace Context parent. When present, the Agent continues this trace for the request. Applies to all `/api/v1` endpoints.
+    /// </summary>
+    [JsonIgnore]
+    public string? Traceparent { get; set; }
+
+    /// <summary>
+    /// Optional W3C tracestate associated with traceparent.
+    /// </summary>
+    [JsonIgnore]
+    public string? Tracestate { get; set; }
+
+    /// <summary>
+    /// Optional W3C baggage. Prompt text is never copied onto spans.
+    /// </summary>
+    [JsonIgnore]
+    public string? Baggage { get; set; }
+
     /// <inheritdoc />
     public override string ToString()
     {

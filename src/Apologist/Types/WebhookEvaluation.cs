@@ -4,7 +4,7 @@ using global::System.Text.Json.Serialization;
 namespace Apologist;
 
 /// <summary>
-/// Result of an evaluation run for CTA/guardrail events.
+/// Result of an evaluation run for CTA, guardrail, or automation events.
 /// </summary>
 [Serializable]
 public record WebhookEvaluation : IJsonOnDeserialized, IJsonOnSerializing

@@ -1,5 +1,3 @@
-using OneOf;
-
 namespace Apologist;
 
 public partial interface ICtAsClient
@@ -8,7 +6,7 @@ public partial interface ICtAsClient
     /// Finds matching CTAs based on conversation context, user, session, device, or messages
     /// </summary>
     WithRawResponseTask<MatchCtasResponse> MatchCtasAsync(
-        OneOf<object> request,
+        CtaMatchRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );

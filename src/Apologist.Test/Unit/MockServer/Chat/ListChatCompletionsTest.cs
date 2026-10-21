@@ -27,7 +27,14 @@ public class ListChatCompletionsTest : BaseMockServerTest
 
         Server
             .Given(
-                WireMock.RequestBuilders.Request.Create().WithPath("/chat/completions").UsingGet()
+                WireMock
+                    .RequestBuilders.Request.Create()
+                    .WithPath("/chat/completions")
+                    .WithHeader(
+                        "traceparent",
+                        "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+                    )
+                    .UsingGet()
             )
             .RespondWith(
                 WireMock
@@ -36,7 +43,12 @@ public class ListChatCompletionsTest : BaseMockServerTest
                     .WithBody(mockResponse)
             );
 
-        var response = await Client.Chat.ListChatCompletionsAsync(new ListChatCompletionsRequest());
+        var response = await Client.Chat.ListChatCompletionsAsync(
+            new ListChatCompletionsRequest
+            {
+                Traceparent = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+            }
+        );
         JsonAssert.AreEqual(response, mockResponse);
     }
 }

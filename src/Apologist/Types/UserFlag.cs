@@ -21,6 +21,12 @@ public record UserFlag : IJsonOnDeserialized
     public string? Name { get; set; }
 
     /// <summary>
+    /// Optional channel user-attribute key. When null, Agent derives a lowercase snake_case key from name.
+    /// </summary>
+    [JsonPropertyName("key")]
+    public string? Key { get; set; }
+
+    /// <summary>
     /// Upstream owning user id when present (mirrored from Ignite).
     /// </summary>
     [JsonPropertyName("user_id")]
