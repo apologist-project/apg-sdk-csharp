@@ -15,7 +15,7 @@ public partial interface IChannelsClient
     /// Receives Chatwoot Agent Bot webhook events for the channel. Chatwoot owns the messaging inbox (Facebook, website widget, and others). This Agent replies through the Chatwoot API and maps native bot handoff to conversation pause/resume. Requests are verified via the `X-Chatwoot-Signature` HMAC-SHA256 header using the configured webhook secret unless an `api_key` is present and no secret is set. The route acknowledges immediately (Chatwoot times out in about 5 seconds) and processes events asynchronously.
     /// </summary>
     WithRawResponseTask ReceiveChatwootWebhookAsync(
-        ReceiveChatwootWebhookRequest request,
+        ChatwootWebhookPayload request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
@@ -102,7 +102,7 @@ public partial interface IChannelsClient
     );
 
     /// <summary>
-    /// Handles the Meta WhatsApp Cloud API webhook verification handshake, echoing `hub.challenge` when `hub.verify_token` matches the channel's configured token.
+    /// Handles the Meta WhatsApp Cloud API webhook verification handshake. Requires an `api_key` query parameter or `x-api-key` header, then echoes `hub.challenge` when `hub.verify_token` matches the channel's configured token.
     /// </summary>
     WithRawResponseTask<string> VerifyWhatsAppWebhookAsync(
         VerifyWhatsAppWebhookRequest request,
@@ -111,7 +111,7 @@ public partial interface IChannelsClient
     );
 
     /// <summary>
-    /// Receives WhatsApp Cloud API message events for the channel. Payload shape is defined by Meta. Signature verification via `x-hub-signature-256` is used when the channel has an App Secret configured; otherwise the webhook relies on URL secrecy and/or an `api_key` query parameter.
+    /// Receives WhatsApp Cloud API message events for the channel. Payload shape is defined by Meta. An `api_key` query parameter or `x-api-key` header is required. Signature verification via `x-hub-signature-256` is also required when the channel has an App Secret configured.
     /// </summary>
     WithRawResponseTask ReceiveWhatsAppMessageAsync(
         ReceiveWhatsAppMessageRequest request,

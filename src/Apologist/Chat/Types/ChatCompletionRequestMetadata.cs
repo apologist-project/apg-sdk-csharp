@@ -17,6 +17,9 @@ public record ChatCompletionRequestMetadata : IJsonOnDeserialized
     [JsonPropertyName("conversation")]
     public string? Conversation { get; set; }
 
+    /// <summary>
+    /// ISO language code for this turn, or `auto` to detect from the prompt.
+    /// </summary>
     [JsonPropertyName("language")]
     public string? Language { get; set; }
 

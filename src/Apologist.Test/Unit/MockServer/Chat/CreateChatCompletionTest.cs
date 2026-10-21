@@ -1,3 +1,4 @@
+using Apologist;
 using Apologist.Test.Unit.MockServer;
 using Apologist.Test.Utils;
 using NUnit.Framework;
@@ -12,41 +13,20 @@ public class CreateChatCompletionTest : BaseMockServerTest
     public async Task MockServerTest()
     {
         const string requestJson = """
-            {
-              "key": "value"
-            }
+            {}
             """;
 
         const string mockResponse = """
             {
               "id": "id",
-              "object": "object",
+              "object": "chat.completion",
               "created": 1,
               "model": "model",
               "choices": [
                 {
                   "index": 1,
-                  "message": {
-                    "role": "system",
-                    "content": "content"
-                  },
                   "logprobs": {
-                    "logprobs": {
-                      "key": "value"
-                    }
-                  },
-                  "finish_reason": "finish_reason"
-                },
-                {
-                  "index": 1,
-                  "message": {
-                    "role": "system",
-                    "content": "content"
-                  },
-                  "logprobs": {
-                    "logprobs": {
-                      "key": "value"
-                    }
+                    "key": "value"
                   },
                   "finish_reason": "finish_reason"
                 }
@@ -65,6 +45,11 @@ public class CreateChatCompletionTest : BaseMockServerTest
                 WireMock
                     .RequestBuilders.Request.Create()
                     .WithPath("/chat/completions")
+                    .WithHeader(
+                        "traceparent",
+                        "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+                    )
+                    .WithHeader("Content-Type", "application/json")
                     .UsingPost()
                     .WithBodyAsJson(requestJson)
             )
@@ -76,7 +61,10 @@ public class CreateChatCompletionTest : BaseMockServerTest
             );
 
         var response = await Client.Chat.CreateChatCompletionAsync(
-            new Dictionary<object, object?>() { { "key", "value" } }
+            new ChatCompletionRequest
+            {
+                Traceparent = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+            }
         );
         JsonAssert.AreEqual(response, mockResponse);
     }

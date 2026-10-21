@@ -123,7 +123,7 @@ public partial class ChannelsClient : IChannelsClient
     }
 
     private async Task<RawResponse> ReceiveChatwootWebhookAsyncCore(
-        ReceiveChatwootWebhookRequest request,
+        ChatwootWebhookPayload request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -146,9 +146,9 @@ public partial class ChannelsClient : IChannelsClient
                     Method = HttpMethod.Post,
                     Path = string.Format(
                         "channels/{0}/chatwoot",
-                        ValueConvert.ToPathParameterString(request.Id)
+                        ValueConvert.ToPathParameterString(request.ChannelId)
                     ),
-                    Body = request.Body,
+                    Body = request,
                     QueryString = _queryString,
                     Headers = _headers,
                     ContentType = "application/json",
@@ -1369,15 +1369,40 @@ public partial class ChannelsClient : IChannelsClient
     /// </summary>
     /// <example><code>
     /// await client.Channels.ReceiveChatwootWebhookAsync(
-    ///     new ReceiveChatwootWebhookRequest
+    ///     new ChatwootWebhookPayload
     ///     {
-    ///         Id = "id",
-    ///         Body = new Dictionary&lt;string, object?&gt;() { { "key", "value" } },
+    ///         ChannelId = "91",
+    ///         ChatwootSignature =
+    ///             "sha256=2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+    ///         ChatwootTimestamp = "1710000000",
+    ///         Event = "message_created",
+    ///         Id = 9001,
+    ///         Content = "Hello from Messenger",
+    ///         MessageType = "incoming",
+    ///         Private = false,
+    ///         Account = new ChatwootWebhookPayloadAccount { Id = 7 },
+    ///         Sender = new ChatwootWebhookPayloadSender
+    ///         {
+    ///             Id = 55,
+    ///             Name = "Pat",
+    ///             Type = "contact",
+    ///         },
+    ///         Conversation = new ChatwootWebhookPayloadConversation
+    ///         {
+    ///             Id = 42,
+    ///             Status = "pending",
+    ///             Account = new ChatwootWebhookPayloadConversationAccount { Id = 7 },
+    ///             Meta = new ChatwootConversationMeta
+    ///             {
+    ///                 AssigneeType = "AgentBot",
+    ///                 Sender = new ChatwootConversationMetaSender { Id = 55, Name = "Pat" },
+    ///             },
+    ///         },
     ///     }
     /// );
     /// </code></example>
     public WithRawResponseTask ReceiveChatwootWebhookAsync(
-        ReceiveChatwootWebhookRequest request,
+        ChatwootWebhookPayload request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     )
@@ -1578,7 +1603,7 @@ public partial class ChannelsClient : IChannelsClient
     }
 
     /// <summary>
-    /// Handles the Meta WhatsApp Cloud API webhook verification handshake, echoing `hub.challenge` when `hub.verify_token` matches the channel's configured token.
+    /// Handles the Meta WhatsApp Cloud API webhook verification handshake. Requires an `api_key` query parameter or `x-api-key` header, then echoes `hub.challenge` when `hub.verify_token` matches the channel's configured token.
     /// </summary>
     /// <example><code>
     /// await client.Channels.VerifyWhatsAppWebhookAsync(
@@ -1602,7 +1627,7 @@ public partial class ChannelsClient : IChannelsClient
     }
 
     /// <summary>
-    /// Receives WhatsApp Cloud API message events for the channel. Payload shape is defined by Meta. Signature verification via `x-hub-signature-256` is used when the channel has an App Secret configured; otherwise the webhook relies on URL secrecy and/or an `api_key` query parameter.
+    /// Receives WhatsApp Cloud API message events for the channel. Payload shape is defined by Meta. An `api_key` query parameter or `x-api-key` header is required. Signature verification via `x-hub-signature-256` is also required when the channel has an App Secret configured.
     /// </summary>
     /// <example><code>
     /// await client.Channels.ReceiveWhatsAppMessageAsync(

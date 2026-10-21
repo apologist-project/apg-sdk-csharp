@@ -19,8 +19,11 @@ public record EvaluatorRequest
     [JsonPropertyName("confidence_threshold")]
     public double? ConfidenceThreshold { get; set; }
 
+    /// <summary>
+    /// Text to evaluate, an array of strings, or chat messages.
+    /// </summary>
     [JsonPropertyName("content")]
-    public required OneOf<string, IEnumerable<object>> Content { get; set; }
+    public required OneOf<string, IEnumerable<OneOf<string, ChatMessage>>> Content { get; set; }
 
     [JsonPropertyName("model")]
     public string? Model { get; set; }

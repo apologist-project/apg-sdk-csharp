@@ -1,5 +1,3 @@
-using OneOf;
-
 namespace Apologist;
 
 public partial interface IChatClient
@@ -17,7 +15,7 @@ public partial interface IChatClient
     /// Creates a chat completion using the agent's configured model. Supports both streaming and non-streaming responses.
     /// </summary>
     WithRawResponseTask<ChatCompletionResponse> CreateChatCompletionAsync(
-        OneOf<object> request,
+        ChatCompletionRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );
@@ -54,6 +52,24 @@ public partial interface IChatClient
     /// </summary>
     WithRawResponseTask<SuccessResponse> ShareCompletionAsync(
         ShareRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Replaces this chat completion's message-adjacent text with a placeholder. Conversation rows, identifiers, likes, flags, and analytics identity stay in place. Repeat calls finish leftover rows.
+    /// </summary>
+    WithRawResponseTask<ScrubCompletionResponse> ScrubCompletionAsync(
+        ScrubCompletionRequest request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    );
+
+    /// <summary>
+    /// Redacts detected personal data in this chat completion's message-adjacent text with regex, then an optional hosted redaction service when the Agent has that option on. Conversation rows, identifiers, likes, flags, and analytics identity stay in place. Repeat calls finish leftover rows and skip text that is already redacted.
+    /// </summary>
+    WithRawResponseTask<AnonymizeCompletionResponse> AnonymizeCompletionAsync(
+        AnonymizeCompletionRequest request,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     );

@@ -13,7 +13,7 @@ public record ReceiveWhatsAppMessageRequest
     public required string Id { get; set; }
 
     /// <summary>
-    /// Meta `sha256=&lt;hex&gt;` HMAC of the raw body keyed with the WhatsApp App Secret. Required when the channel has an App Secret configured and the webhook URL does not include an api_key.
+    /// Meta `sha256=&lt;hex&gt;` HMAC of the raw body keyed with the WhatsApp App Secret. Required when the channel has an App Secret configured.
     /// </summary>
     [JsonIgnore]
     public string? HubSignature256 { get; set; }
